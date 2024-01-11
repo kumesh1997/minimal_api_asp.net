@@ -1,37 +1,75 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 public static class TodoEndpoints{
-    public static void Map(WebApplication app){
+    public static void Map(WebApplication app)
+    {
 
         var todoItems = app.MapGroup("/todoitems");
 
         todoItems.MapGet("/", GetAllTodos);
         todoItems.MapGet("/{id:int}", GetTodo).RequireAuthorization("admin_greetings");
         todoItems.MapGet("/complete", GetCompleteTodos);
-        todoItems.MapPost("/", MyHandler.create);
+        // OpenAPI annotation for endpoint
+        todoItems.MapPost("/", MyHandler.create)
+        .WithName("Create Todo")
+        .WithOpenApi();
         todoItems.MapPut("/{id:int}", UpdateTodo);
-        todoItems.MapDelete("/{id:int}", DeleteTodo);
-        todoItems.MapGet("/exception", () => 
+        // Add two Filters
+        todoItems.MapDelete("/{id:int}", DeleteTodo)
+        .AddEndpointFilter(async (invocationContext, next) =>
+            {
+                var id = invocationContext.GetArgument<int>(0);
+
+                if (id == 0)
+                {
+                    return Results.Problem("No such Todo!");
+                }
+                return await next(invocationContext);
+            })
+            .AddEndpointFilter(async (invocationContext, next) =>
+            {
+                var id = invocationContext.GetArgument<int>(0);
+
+                if (id == 1)
+                {
+                    return Results.Problem("Cannot Delete Toto 1!");
+                }
+                return await next(invocationContext);
+            });
+        todoItems.MapGet("/exception", () =>
         {
             throw new InvalidOperationException("Sample Exception");
         });
+
+        // Multiple Responses
+        todoItems.MapGet("/hello/{id:int}", Results<BadRequest, Ok> (int id)
+            => id > 999 ? TypedResults.BadRequest() : TypedResults.Ok());
     }
 
+// Get All Todos
     static async Task<IResult> GetAllTodos(TodoDb db)
-    {
-        return TypedResults.Ok(await db.Todos.Select(x => new TodoItemDTO(x)).ToArrayAsync());
+{
+    try{
+        return TypedResults.Ok(await db.todo.Select(x => new TodoItemDTO(x)).ToArrayAsync()); 
+    }catch(Exception e){
+        Console.WriteLine(e.Message);
     }
+    return TypedResults.NoContent();
+}
 
-    static async Task<IResult> GetCompleteTodos(TodoDb db) {
-    return TypedResults.Ok(await db.Todos.Where(t => t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync());
-    }
+// Get Completed Todos
+static async Task<IResult> GetCompleteTodos(TodoDb db) {
+    return TypedResults.Ok(await db.todo.Where(t => t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync());
+}
 
+// Get Todo
+static async Task<IResult> GetTodo(TodoDb db, int id)
+{
+    return await db.todo.FindAsync(id) is Todo todo? TypedResults.Ok(new TodoItemDTO(todo)) : TypedResults.NotFound();
+}
 
-    static async Task<IResult> GetTodo(TodoDb db, int id)
-    {
-        return await db.Todos.FindAsync(id) is Todo todo? TypedResults.Ok(new TodoItemDTO(todo)) : TypedResults.NotFound();
-    }
-
+// Create Todo
     static async Task<IResult> CreateTodo(TodoItemDTO? todoItemDTO, TodoDb db)
 {
     var todoItem = new Todo
@@ -40,7 +78,7 @@ public static class TodoEndpoints{
         Name = todoItemDTO.Name
     };
 
-    db.Todos.Add(todoItem);
+    db.todo.Add(todoItem);
     await db.SaveChangesAsync();
 
     todoItemDTO = new TodoItemDTO(todoItem);
@@ -48,9 +86,10 @@ public static class TodoEndpoints{
     return TypedResults.Created($"/todoitems/{todoItem.Id}", todoItemDTO);
 }
 
+// Update Todo
 static async Task<IResult> UpdateTodo(int? id, TodoItemDTO todoItemDTO, TodoDb db)
 {
-    var todo = await db.Todos.FindAsync(id);
+    var todo = await db.todo.FindAsync(id);
 
     if (todo is null) return TypedResults.NotFound();
 
@@ -63,11 +102,12 @@ static async Task<IResult> UpdateTodo(int? id, TodoItemDTO todoItemDTO, TodoDb d
 }
 
 
+// Delete Todo
 static async Task<IResult> DeleteTodo(int id, TodoDb db)
 {
-    if (await db.Todos.FindAsync(id) is Todo todo)
+    if (await db.todo.FindAsync(id) is Todo todo)
     {
-        db.Todos.Remove(todo);
+        db.todo.Remove(todo);
         await db.SaveChangesAsync();
         return TypedResults.NoContent();
     }
@@ -75,7 +115,7 @@ static async Task<IResult> DeleteTodo(int id, TodoDb db)
     return TypedResults.NotFound();
 }
 
-    // Static Method
+    // Static Method to Create Todo
 class MyHandler
 {
     public static async Task<IResult> create(TodoItemDTO? todoItemDTO, TodoDb db)
@@ -86,7 +126,7 @@ class MyHandler
         Name = todoItemDTO.Name
     };
 
-    db.Todos.Add(todoItem);
+    db.todo.Add(todoItem);
     await db.SaveChangesAsync();
 
     todoItemDTO = new TodoItemDTO(todoItem);
@@ -94,6 +134,5 @@ class MyHandler
     return TypedResults.Created($"/todoitems/{todoItem.Id}", todoItemDTO);
     }
 }
-
 
 }
