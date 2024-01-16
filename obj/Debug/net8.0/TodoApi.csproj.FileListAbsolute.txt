@@ -38,3 +38,4 @@ C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\To
 C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\obj\Debug\net8.0\TodoApi.sourcelink.json
