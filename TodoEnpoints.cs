@@ -7,7 +7,7 @@ public static class TodoEndpoints{
 
         todoItems.MapGet("/", GetAllTodos);
         todoItems.MapGet("/{id:int}", GetTodo).RequireAuthorization("admin_greetings");
-        todoItems.MapGet("/complete", GetCompleteTodos);
+        // todoItems.MapGet("/complete", GetCompleteTodos);
         todoItems.MapPost("/", MyHandler.create);
         todoItems.MapPut("/{id:int}", UpdateTodo);
         todoItems.MapDelete("/{id:int}", DeleteTodo);
@@ -22,9 +22,9 @@ public static class TodoEndpoints{
         return TypedResults.Ok(await db.todo.Select(x => new TodoItemDTO(x)).ToArrayAsync());
     }
 
-    static async Task<IResult> GetCompleteTodos(TodoDb db) {
-    return TypedResults.Ok(await db.todo.Where(t => t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync());
-    }
+    // static async Task<IResult> GetCompleteTodos(TodoDb db) {
+    // return TypedResults.Ok(await db.todo.Where(t => t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync());
+    // }
 
 
     static async Task<IResult> GetTodo(TodoDb db, int id)
@@ -36,7 +36,7 @@ public static class TodoEndpoints{
 {
     var todoItem = new Todo
     {
-        IsComplete = todoItemDTO.IsComplete,
+        // IsComplete = todoItemDTO.IsComplete,
         Name = todoItemDTO.Name
     };
 
@@ -55,7 +55,7 @@ static async Task<IResult> UpdateTodo(int? id, TodoItemDTO todoItemDTO, TodoDb d
     if (todo is null) return TypedResults.NotFound();
 
     todo.Name = todoItemDTO.Name;
-    todo.IsComplete = todoItemDTO.IsComplete;
+    // todo.IsComplete = todoItemDTO.IsComplete;
 
     await db.SaveChangesAsync();
 
@@ -82,7 +82,8 @@ class MyHandler
     {
         var todoItem = new Todo
     {
-        IsComplete = todoItemDTO.IsComplete,
+        // IsComplete = todoItemDTO.IsComplete,
+        Id = todoItemDTO.Id,
         Name = todoItemDTO.Name
     };
 
