@@ -19,17 +19,17 @@ public static class TodoEndpoints{
 
     static async Task<IResult> GetAllTodos(TodoDb db)
     {
-        return TypedResults.Ok(await db.Todos.Select(x => new TodoItemDTO(x)).ToArrayAsync());
+        return TypedResults.Ok(await db.todo.Select(x => new TodoItemDTO(x)).ToArrayAsync());
     }
 
     static async Task<IResult> GetCompleteTodos(TodoDb db) {
-    return TypedResults.Ok(await db.Todos.Where(t => t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync());
+    return TypedResults.Ok(await db.todo.Where(t => t.IsComplete).Select(x => new TodoItemDTO(x)).ToListAsync());
     }
 
 
     static async Task<IResult> GetTodo(TodoDb db, int id)
     {
-        return await db.Todos.FindAsync(id) is Todo todo? TypedResults.Ok(new TodoItemDTO(todo)) : TypedResults.NotFound();
+        return await db.todo.FindAsync(id) is Todo todo? TypedResults.Ok(new TodoItemDTO(todo)) : TypedResults.NotFound();
     }
 
     static async Task<IResult> CreateTodo(TodoItemDTO? todoItemDTO, TodoDb db)
@@ -40,7 +40,7 @@ public static class TodoEndpoints{
         Name = todoItemDTO.Name
     };
 
-    db.Todos.Add(todoItem);
+    db.todo.Add(todoItem);
     await db.SaveChangesAsync();
 
     todoItemDTO = new TodoItemDTO(todoItem);
@@ -50,7 +50,7 @@ public static class TodoEndpoints{
 
 static async Task<IResult> UpdateTodo(int? id, TodoItemDTO todoItemDTO, TodoDb db)
 {
-    var todo = await db.Todos.FindAsync(id);
+    var todo = await db.todo.FindAsync(id);
 
     if (todo is null) return TypedResults.NotFound();
 
@@ -65,9 +65,9 @@ static async Task<IResult> UpdateTodo(int? id, TodoItemDTO todoItemDTO, TodoDb d
 
 static async Task<IResult> DeleteTodo(int id, TodoDb db)
 {
-    if (await db.Todos.FindAsync(id) is Todo todo)
+    if (await db.todo.FindAsync(id) is Todo todo)
     {
-        db.Todos.Remove(todo);
+        db.todo.Remove(todo);
         await db.SaveChangesAsync();
         return TypedResults.NoContent();
     }
@@ -86,7 +86,7 @@ class MyHandler
         Name = todoItemDTO.Name
     };
 
-    db.Todos.Add(todoItem);
+    db.todo.AddAsync(todoItem);
     await db.SaveChangesAsync();
 
     todoItemDTO = new TodoItemDTO(todoItem);

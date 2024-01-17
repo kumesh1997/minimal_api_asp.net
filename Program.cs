@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<TodoDb>(opt => opt.UseInMemoryDatabase("TodoList"));
+// builder.Services.AddDbContext<TodoDb>(opt => opt.UseInMemoryDatabase("TodoList"));
+builder.Services.AddDbContext<TodoDb>(opt => opt.UseMySql(builder.Configuration.GetConnectionString("WebApiDatabase"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("WebApiDatabase"))));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddCors();
 builder.Services.AddAuthentication().AddJwtBearer();
