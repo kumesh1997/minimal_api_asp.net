@@ -7,6 +7,7 @@ var connectionString = builder.Configuration.GetConnectionString("WebApiDatabase
 builder.Services.AddDbContext<TodoDb>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)).LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors());
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddCors();
 builder.Services.AddAuthentication().AddJwtBearer();
@@ -17,7 +18,6 @@ builder.Services.AddAuthorizationBuilder()
             .RequireRole("admin")
             .RequireClaim("scope", "greetings_api"));
             
-
 var app = builder.Build();
 
 app.UseCors();
@@ -29,7 +29,6 @@ app.UseExceptionHandler(exceptionHandlerApp
     => exceptionHandlerApp.Run(async context 
         => await Results.Problem()
                      .ExecuteAsync(context)));
-
 
 // Outside endpoints
 TodoEndpoints.Map(app);
