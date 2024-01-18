@@ -45,3 +45,8 @@ C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\To
 C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\obj\Debug\net8.0\TodoApi.pdb
 C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\obj\Debug\net8.0\TodoApi.genruntimeconfig.cache
 C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\obj\Debug\net8.0\ref\TodoApi.dll
+C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\obj\Debug\net8.0\TodoApi.MvcApplicationPartsAssemblyInfo.cs

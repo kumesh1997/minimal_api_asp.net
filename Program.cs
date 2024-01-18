@@ -1,6 +1,16 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+     c.SwaggerDoc("v1", new OpenApiInfo {
+         Title = "TodoApp API",
+         Description = "Making you Todos",
+         Version = "v1" });
+});
 
 var connectionString = builder.Configuration.GetConnectionString("WebApiDatabase");
 
@@ -19,6 +29,12 @@ builder.Services.AddAuthorizationBuilder()
             .RequireClaim("scope", "greetings_api"));
             
 var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+   c.SwaggerEndpoint("/swagger/v1/swagger.json", "TodoApp API V1");
+});
 
 app.UseCors();
 app.UseAuthentication();
