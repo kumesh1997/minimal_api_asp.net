@@ -11,9 +11,9 @@ builder.Services.AddSwaggerGen(c =>
          Description = "Making you Todos",
          Version = "v1" });
 });
-
+//Connection string
 var connectionString = builder.Configuration.GetConnectionString("WebApiDatabase");
-
+//Add DB context
 builder.Services.AddDbContext<TodoDb>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)).LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors());

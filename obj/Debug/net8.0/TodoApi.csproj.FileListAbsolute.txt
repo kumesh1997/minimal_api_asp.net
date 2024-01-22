@@ -50,3 +50,5 @@ C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\To
 C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\obj\Debug\net8.0\TodoApi.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\bin\Debug\net8.0\Npgsql.dll
+C:\Users\tharinduk\OneDrive - ORELIT (PVT) LTD\Desktop\Minimal API with Azure\TodoApi\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
