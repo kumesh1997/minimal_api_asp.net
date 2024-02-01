@@ -92,13 +92,19 @@ class MyHandler
         Id = todoItemDTO.Id,
         Name = todoItemDTO.Name
     };
+    try
+    {
+        db.todo.AddAsync(todoItem);
+        await db.SaveChangesAsync();
 
-    db.todo.AddAsync(todoItem);
-    await db.SaveChangesAsync();
-
-    todoItemDTO = new TodoItemDTO(todoItem);
-
-    return TypedResults.Created($"/todoitems/{todoItem.Id}", todoItemDTO);
+        todoItemDTO = new TodoItemDTO(todoItem);
+         return TypedResults.Created($"/todoitems/{todoItem.Id}", todoItemDTO);
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine("Exception occure: ",e.Message);
+        return TypedResults.BadRequest(e.Message);
+    }
     }
 }
 
