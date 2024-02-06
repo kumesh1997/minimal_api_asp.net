@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen(c =>
 //Connection string
 var connectionString = builder.Configuration.GetConnectionString("WebApiDatabase");
 //Add DB context
-builder.Services.AddDbContext<TodoDb>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)).LogTo(Console.WriteLine, LogLevel.Information)
+builder.Services.AddDbContext<TodoDb>(opt => opt.UseNpgsql(connectionString)
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors());
 
